@@ -5,7 +5,7 @@ from decouple import config
 from boto3.exceptions import S3UploadFailedError 
 from botocore.exceptions import ClientError 
 
-def get_client(client_config=None):
+def get_S3client(client_config=None):
     client = boto3.client(service_name='s3',
                         region_name= config('REGION'),
                         aws_access_key_id=config('ACCESS_KEY'),
@@ -13,6 +13,12 @@ def get_client(client_config=None):
                         endpoint_url=config('ENDPOINT_URL'))
     # response = client.list_buckets()
     return client
+def get_response_body(response):
+    body = response['Body']
+    bytesBody = body.read()
+    if type(bytesBody) is bytes:
+        bytesBody = bytesBody.decode()
+    return bytesBody
 
 def _get_status_and_error_code(response):
     status = response['ResponseMetadata']['HTTPStatusCode']
@@ -23,9 +29,6 @@ def get_response_status(response):
     return status
 
 def raise_assertError(excClass, callableObj, *args, **kwargs):
-    """
-    Like unittest.TestCase.assertRaises, but returns the exception.
-    """
     try:
         callableObj(*args, **kwargs)
     except excClass as e:
@@ -66,4 +69,10 @@ def lifecycle_config():
             {'ID': 'rule1', 'Expiration': {'Days': 1}, 'Prefix': 'test1/', 'Status':'Enabled'},
             {'ID': 'rule2', 'Expiration': {'Days': 2}, 'Prefix': 'test2/', 'Status':'Disabled'}
         ]
+    }
+
+def website_config():
+    return {
+        'IndexDocument': {"Suffix": "index.html"},
+        'ErrorDocument': {"Key": "error.html"}
     }
