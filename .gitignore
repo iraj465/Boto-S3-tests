@@ -2,3 +2,4 @@ htmlcov/*
 *.txt
 env/*
 .pytest_cache
+.env
