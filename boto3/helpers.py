@@ -29,15 +29,9 @@ def raise_assertError(exception_class, s3_API_Obj, *args, **kwargs):
         s3_API_Obj(*args, **kwargs)
     except exception_class as e:
         return e
-    else:
-        if hasattr(exception_class, '__name__'):
-            exception_name = exception_class.__name__
-        else:
-            exception_name = str(exception_class)
-        raise AssertionError("%s not raised" % exception_name)
 
 def cors_config():
-    #Sets arbitrary cors metadata for testing purposes
+    # Sets arbitrary cors metadata for testing purposes
     return {
         'CORSRules': [
             {'AllowedMethods': ['GET', 'PUT'],

@@ -19,7 +19,6 @@ def test_put_cors():
      and other CORS metadata is as set in PUT call 
     """
     client = get_S3client()
-    #PUT CORS Rules
     client.put_bucket_cors(Bucket=config('BUCKET_NAME'), CORSConfiguration=cors_config())
     response = client.get_bucket_cors(Bucket=config('BUCKET_NAME'))
     assert response['CORSRules'][0]['AllowedMethods'] == ['GET', 'PUT']
@@ -115,13 +114,13 @@ def test_delete_website_configuration():
     assert get_response_status(error.response) == 404
 
 def test_download_file_missing():
-    """ Tries to download file test.txt which isn't yet uploaded,hence gets 404 """
+    """ Tries to download file gsoc-test.txt which isn't yet uploaded,hence gets 404 """
     client = get_S3client()
     error = raise_assertError(ClientError,client.download_file,Bucket=config('BUCKET_NAME'),Key='gsoc-test.txt',Filename='gsoc-test.txt')
     assert  get_response_status(error.response) == 404
 
 def test_upload_file():
-    """ Uploads file test.txt to bucket and checks whether response StatusCode is 200 """
+    """ Uploads file gsoc-test.txt to bucket and checks whether response StatusCode is 200 """
     client = get_S3client()
     client.put_object(Bucket=config('BUCKET_NAME'),Key='gsoc-test.txt',Body=b'foo bar')
     response = client.get_object(Bucket=config('BUCKET_NAME'), Key='gsoc-test.txt')
@@ -129,7 +128,7 @@ def test_upload_file():
     assert  get_response_status(response) == 200
 
 def test_delete_file_uploaded():
-    """ Deletes uploaded file test.txt and checks whether response StatusCode is 204 """
+    """ Deletes uploaded file gsoc-test.txt and checks whether response StatusCode is 204 """
     client = get_S3client()
     response = client.delete_object(Bucket=config('BUCKET_NAME'), Key='gsoc-test.txt')
     assert  get_response_status(response) == 204
