@@ -1,5 +1,5 @@
 # Boto S3 tests
-This repository contains tests for boto S3 for both [Boto3](https://boto3.amazonaws.com/v1/documentation/api/latest/index.html) and [Boto2](http://boto.cloudhackers.com/en/latest/) SDKs.
+This repository contains tests for S3 buckets and their coverage for both [Boto3](https://boto3.amazonaws.com/v1/documentation/api/latest/index.html) and [Boto2](http://boto.cloudhackers.com/en/latest/) SDKs.
 
 
 ## Getting started
