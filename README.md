@@ -6,7 +6,7 @@ This repository contains tests for boto S3 for both [Boto3](https://boto3.amazon
 
 * Clone the repository:
 ```bash
-git clonegit@github.com:iraj465/Boto-S3-tests.git
+git clone git@github.com:iraj465/Boto-S3-tests.git
 cd Boto-S3-tests
 ```
 * Install virtual environment and required dependencies:
