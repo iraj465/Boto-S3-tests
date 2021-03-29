@@ -4,27 +4,7 @@ import json
 from decouple import config
 from boto3.exceptions import S3UploadFailedError 
 from botocore.exceptions import ClientError
-from utils import get_S3client,raise_assertError,get_response_status,bucket_policy_config,cors_config,lifecycle_config,website_config,get_response_body
-
-def test_download_file_missing():
-    """ Tries to download file test.txt which isn't yet uploaded,hence gets 404 """
-    client = get_S3client()
-    error = raise_assertError(ClientError,client.download_file,Bucket=config('BUCKET_NAME'),Key='test.txt',Filename='test.txt')
-    assert  get_response_status(error.response) == 404
-
-def test_upload_file():
-    """ Uploads file test.txt to bucket and checks whether response StatusCode is 200 """
-    client = get_S3client()
-    client.put_object(Bucket=config('BUCKET_NAME'),Key='test.txt',Body=b'foo bar')
-    response = client.get_object(Bucket=config('BUCKET_NAME'), Key='test.txt')
-    assert get_response_body(response) == 'foo bar'
-    assert  get_response_status(response) == 200
-
-def test_delete_file_uploaded():
-    """ Deletes uploaded file test.txt and checks whether response StatusCode is 204 """
-    client = get_S3client()
-    response = client.delete_object(Bucket=config('BUCKET_NAME'), Key='test.txt')
-    assert  get_response_status(response) == 204
+from helpers import get_S3client,raise_assertError,get_response_status,bucket_policy_config,cors_config,lifecycle_config,website_config,get_response_body
 
 def test_get_cors():
     """ Check whether GET CORS API call returns 404 since no CORS Rule is set """
@@ -133,4 +113,24 @@ def test_delete_website_configuration():
     client.delete_bucket_website(Bucket=config('BUCKET_NAME'))
     error = raise_assertError(ClientError, client.get_bucket_website, Bucket=config('BUCKET_NAME'))
     assert get_response_status(error.response) == 404
+
+def test_download_file_missing():
+    """ Tries to download file test.txt which isn't yet uploaded,hence gets 404 """
+    client = get_S3client()
+    error = raise_assertError(ClientError,client.download_file,Bucket=config('BUCKET_NAME'),Key='test.txt',Filename='test.txt')
+    assert  get_response_status(error.response) == 404
+
+def test_upload_file():
+    """ Uploads file test.txt to bucket and checks whether response StatusCode is 200 """
+    client = get_S3client()
+    client.put_object(Bucket=config('BUCKET_NAME'),Key='test.txt',Body=b'foo bar')
+    response = client.get_object(Bucket=config('BUCKET_NAME'), Key='test.txt')
+    assert get_response_body(response) == 'foo bar'
+    assert  get_response_status(response) == 200
+
+def test_delete_file_uploaded():
+    """ Deletes uploaded file test.txt and checks whether response StatusCode is 204 """
+    client = get_S3client()
+    response = client.delete_object(Bucket=config('BUCKET_NAME'), Key='test.txt')
+    assert  get_response_status(response) == 204
 

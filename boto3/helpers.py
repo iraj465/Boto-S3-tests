@@ -11,8 +11,8 @@ def get_S3client(client_config=None):
                         aws_access_key_id=config('ACCESS_KEY'),
                         aws_secret_access_key=config('SECRET_KEY'),
                         endpoint_url=config('ENDPOINT_URL'))
-    # response = client.list_buckets()
     return client
+
 def get_response_body(response):
     body = response['Body']
     bytesBody = body.read()
@@ -20,27 +20,24 @@ def get_response_body(response):
         bytesBody = bytesBody.decode()
     return bytesBody
 
-def _get_status_and_error_code(response):
-    status = response['ResponseMetadata']['HTTPStatusCode']
-    error_code = response['Error']['Code']
-    return status, error_code
 def get_response_status(response):
     status = response['ResponseMetadata']['HTTPStatusCode']
     return status
 
-def raise_assertError(excClass, callableObj, *args, **kwargs):
+def raise_assertError(exception_class, s3_API_Obj, *args, **kwargs):
     try:
-        callableObj(*args, **kwargs)
-    except excClass as e:
+        s3_API_Obj(*args, **kwargs)
+    except exception_class as e:
         return e
     else:
-        if hasattr(excClass, '__name__'):
-            excName = excClass.__name__
+        if hasattr(exception_class, '__name__'):
+            exception_name = excClass.__name__
         else:
-            excName = str(excClass)
-        raise AssertionError("%s not raised" % excName)
+            exception_name = str(exception_class)
+        raise AssertionError("%s not raised" % exception_name)
 
 def cors_config():
+    #Sets arbitrary cors metadata for testing purposes
     return {
         'CORSRules': [
             {'AllowedMethods': ['GET', 'PUT'],
@@ -49,6 +46,7 @@ def cors_config():
         ]
     }
 def bucket_policy_config():
+    # Sets arbitrary bucket_policy for testing purposes
     return json.dumps(
     {
         "Version": "2012-10-17",
@@ -64,14 +62,16 @@ def bucket_policy_config():
      })
 
 def lifecycle_config():
+    # Sets arbitrary lifecycle_policy for testing purposes
     return {
         'Rules': [
-            {'ID': 'rule1', 'Expiration': {'Days': 1}, 'Prefix': 'test1/', 'Status':'Enabled'},
+            {'ID': 'rule1', 'Expiration': {'Days': 3}, 'Prefix': 'test1/', 'Status':'Enabled'},
             {'ID': 'rule2', 'Expiration': {'Days': 2}, 'Prefix': 'test2/', 'Status':'Disabled'}
         ]
     }
 
 def website_config():
+    # Sets arbitrary website_configuration for testing purposes
     return {
         'IndexDocument': {"Suffix": "index.html"},
         'ErrorDocument': {"Key": "error.html"}
