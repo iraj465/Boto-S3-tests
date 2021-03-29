@@ -4,12 +4,12 @@ This repository contains tests for boto S3 for both [Boto3](https://boto3.amazon
 
 ## Getting started
 
-Clone the repository:
+* Clone the repository:
 ```bash
 git clonegit@github.com:iraj465/Boto-S3-tests.git
 cd Boto-S3-tests
 ```
-Install virtual environment and required dependencies:
+* Install virtual environment and required dependencies:
 
 ```bash
 # Create a virtual environment
@@ -20,23 +20,24 @@ $ source ./env/bin/activate
 $ pip install -r requirements.txt
 
 ```
+* Copy `.env.example` to `.env` or create your own `.env` and fill in the credentials as given in `.env.example`
 
-Runs tests for Boto3 SDK by running:
+* Runs tests for Boto3 SDK by running:
 ```bash
 coverage run --source boto3/ -m pytest boto3/tests_s3.py
 ```
 
-Runs tests for Boto2 SDK by running:
+* Runs tests for Boto2 SDK by running:
 ```bash
 coverage run --source boto2/ -m pytest boto2/tests_s3.py
 ```
 
-Run the following command to generate coverage report:
+* Run the following command to generate coverage report:
 ```bash
 coverage report
 ```
 
-Run the following command to generate coverage report in html(for website viewing):
+* Run the following command to generate coverage report in html(for website viewing):
 ```bash
 coverage html
 ```
