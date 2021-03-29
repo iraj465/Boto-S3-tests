@@ -3,3 +3,4 @@ htmlcov/*
 env/*
 .pytest_cache
 .env
+.DS_Store

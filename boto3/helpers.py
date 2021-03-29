@@ -31,7 +31,7 @@ def raise_assertError(exception_class, s3_API_Obj, *args, **kwargs):
         return e
     else:
         if hasattr(exception_class, '__name__'):
-            exception_name = excClass.__name__
+            exception_name = exception_class.__name__
         else:
             exception_name = str(exception_class)
         raise AssertionError("%s not raised" % exception_name)
@@ -53,7 +53,7 @@ def bucket_policy_config():
         "Statement": [{
         "Effect": "Allow",
         "Principal": {"AWS": "*"},
-        "Action": "s3:ListBucket",
+        "Action": "s3:*",
         "Resource": [
             "{}".format("arn:aws:s3:::" + config('BUCKET_NAME') ),
             "{}".format("arn:aws:s3:::" + config('BUCKET_NAME') + "/*")

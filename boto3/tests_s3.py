@@ -117,20 +117,20 @@ def test_delete_website_configuration():
 def test_download_file_missing():
     """ Tries to download file test.txt which isn't yet uploaded,hence gets 404 """
     client = get_S3client()
-    error = raise_assertError(ClientError,client.download_file,Bucket=config('BUCKET_NAME'),Key='test.txt',Filename='test.txt')
+    error = raise_assertError(ClientError,client.download_file,Bucket=config('BUCKET_NAME'),Key='gsoc-test.txt',Filename='gsoc-test.txt')
     assert  get_response_status(error.response) == 404
 
 def test_upload_file():
     """ Uploads file test.txt to bucket and checks whether response StatusCode is 200 """
     client = get_S3client()
-    client.put_object(Bucket=config('BUCKET_NAME'),Key='test.txt',Body=b'foo bar')
-    response = client.get_object(Bucket=config('BUCKET_NAME'), Key='test.txt')
+    client.put_object(Bucket=config('BUCKET_NAME'),Key='gsoc-test.txt',Body=b'foo bar')
+    response = client.get_object(Bucket=config('BUCKET_NAME'), Key='gsoc-test.txt')
     assert get_response_body(response) == 'foo bar'
     assert  get_response_status(response) == 200
 
 def test_delete_file_uploaded():
     """ Deletes uploaded file test.txt and checks whether response StatusCode is 204 """
     client = get_S3client()
-    response = client.delete_object(Bucket=config('BUCKET_NAME'), Key='test.txt')
+    response = client.delete_object(Bucket=config('BUCKET_NAME'), Key='gsoc-test.txt')
     assert  get_response_status(response) == 204
 
