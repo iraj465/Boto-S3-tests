@@ -6,24 +6,24 @@ from boto3.exceptions import S3UploadFailedError
 from botocore.exceptions import ClientError
 from helpers import get_S3client,raise_assertError,get_response_status,bucket_policy_config,cors_config,lifecycle_config,website_config,get_response_body
 
-def test_get_cors():
-    """ Check whether GET CORS API call returns 404 since no CORS Rule is set """
-    client = get_S3client()
-    # GET CORS before setting CORS Rules should raise error
-    error = raise_assertError(ClientError,client.get_bucket_cors,Bucket=config('BUCKET_NAME'))
-    assert get_response_status(error.response) == 404
+# def test_get_cors():
+#     """ Check whether GET CORS API call returns 404 since no CORS Rule is set """
+#     client = get_S3client()
+#     # GET CORS before setting CORS Rules should raise error
+#     error = raise_assertError(ClientError,client.get_bucket_cors,Bucket=config('BUCKET_NAME'))
+#     assert get_response_status(error.response) == 404
 
-def test_put_cors():
-    """
-     PUTs arbitraty CORS Rule and checks whether GET CORS API call returns 200 
-     and other CORS metadata is as set in PUT call 
-    """
-    client = get_S3client()
-    client.put_bucket_cors(Bucket=config('BUCKET_NAME'), CORSConfiguration=cors_config())
-    response = client.get_bucket_cors(Bucket=config('BUCKET_NAME'))
-    assert response['CORSRules'][0]['AllowedMethods'] == ['GET', 'PUT']
-    assert response['CORSRules'][0]['AllowedOrigins'] == ['*.get', '*.put']
-    assert get_response_status(response) == 200
+# def test_put_cors():
+#     """
+#      PUTs arbitraty CORS Rule and checks whether GET CORS API call returns 200 
+#      and other CORS metadata is as set in PUT call 
+#     """
+#     client = get_S3client()
+#     client.put_bucket_cors(Bucket=config('BUCKET_NAME'), CORSConfiguration=cors_config())
+#     response = client.get_bucket_cors(Bucket=config('BUCKET_NAME'))
+#     assert response['CORSRules'][0]['AllowedMethods'] == ['GET', 'PUT']
+#     assert response['CORSRules'][0]['AllowedOrigins'] == ['*.get', '*.put']
+#     assert get_response_status(response) == 200
 
 def test_delete_cors():
     """
