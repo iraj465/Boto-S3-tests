@@ -10,7 +10,7 @@ def get_S3client(client_config=None):
                         region_name= config('REGION'),
                         aws_access_key_id=config('ACCESS_KEY'),
                         aws_secret_access_key=config('SECRET_KEY'),
-                        endpoint_url=config('ENDPOINT_URL'))
+                        endpoint_url='https://'+config('ENDPOINT'))
     return client
 
 def get_response_body(response):
