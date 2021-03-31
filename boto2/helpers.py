@@ -19,7 +19,28 @@ def get_err_response_status(response):
 
 def raise_assertError(exception_class, s3_API_Obj, *args, **kwargs):
     try:
-        res = s3_API_Obj(*args, **kwargs)
-        print(res)
+        s3_API_Obj(*args, **kwargs)
     except exception_class as e:
         return e
+
+def bucket_policy_config(bucket_name):
+    return '''{
+      "Version":"2012-10-17",
+      "Statement": [{
+        "Sid": "Allow Public Access to All Objects",
+        "Effect": "Allow",
+        "Principal": "*",
+        "Action": "s3:GetObject",
+        "Condition": {
+                    "StringLikeIfExists": {
+                        "aws:Referer": "http://www.example.com/*"
+                    }
+                },
+        "Resource": "arn:aws:s3:::%s/*"
+      }
+     ]
+    }''' % bucket_name
+
+def bucket_website_config():
+    fragment = '<ErrorDocument><Key>error.html</Key></ErrorDocument><IndexDocument><Suffix>index.html</Suffix></IndexDocument>'
+    return '<?xml version="1.0" encoding="UTF-8"?><WebsiteConfiguration xmlns="http://s3.amazonaws.com/doc/2006-03-01/">' + fragment + '</WebsiteConfiguration>'
