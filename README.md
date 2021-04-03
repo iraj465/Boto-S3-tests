@@ -20,7 +20,7 @@ $ source ./env/bin/activate
 $ pip install -r requirements.txt
 
 ```
-* Copy `.env.example` to `.env` or create your own `.env` and fill in the credentials as given in `.env.example`
+* Copy `.env.example` to `.env` and configure the environment variables accordingly.
 
 * Runs tests for Boto3 SDK by running:
 ```bash
